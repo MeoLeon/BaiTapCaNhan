@@ -1,0 +1,219 @@
+body {
+    background-color: #0d1a26;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.aquarium-container {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.aquarium {
+    width: 900px;
+    height: 500px;
+    position: relative;
+
+    border: 5px solid #00c0ff;
+    border-radius: 8px;
+    box-shadow:
+        0 0 50px rgba(0, 192, 255, 0.8),
+        inset 0 0 100px rgba(0, 0, 0, 0.5);
+
+    background-image: url('../images/Nen.jpg');
+    background-size: cover;
+    background-position: center top;
+
+    /* Thiết lập phối cảnh cho hiệu ứng 3D nếu cần */
+    transform-style: preserve-3d;
+}
+
+/* Phần mô phỏng mặt nước hoặc đáy hồ (để tạo cảm giác phân tầng) */
+.water-surface {
+    /* Tạo hiệu ứng gợn sóng ở đáy hoặc mặt nước như trong hình */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    /* Chiều cao của phần "đáy" hoặc "bề mặt" */
+
+    /* Màu xanh nước biển sáng, bạn có thể dùng gradient hoặc ảnh gợn sóng */
+    background-color: rgba(0, 192, 255, 0.3);
+
+    /* Tạo hiệu ứng gợn sóng đơn giản (tùy chọn) */
+    /* Đây là một ví dụ, bạn nên dùng một hình ảnh gợn sóng thực tế để đẹp hơn */
+    /* Ví dụ: background-image: url('water-texture.png'); */
+
+    /* Thêm shadow để tạo độ sâu */
+    box-shadow:
+        0 5px 20px rgba(0, 192, 255, 0.7),
+        inset 0 10px 20px rgba(0, 0, 0, 0.4);
+
+    /* Hiệu ứng gợn sóng đơn giản chỉ dùng CSS */
+    animation: wave-motion 5s infinite alternate ease-in-out;
+}
+
+@keyframes wave-motion {
+    from {
+        clip-path: polygon(0 80%, 33% 90%, 66% 75%, 100% 85%, 100% 100%, 0 100%);
+    }
+
+    to {
+        clip-path: polygon(0 85%, 33% 75%, 66% 90%, 100% 80%, 100% 100%, 0 100%);
+    }
+}
+
+/* Nếu bạn muốn mô phỏng các bức tường 3D bên trong: */
+/* Điều này yêu cầu thêm các div con (ví dụ: .side-wall) trong HTML và dùng transform: rotateY/X */
+
+/* ... (Giữ nguyên toàn bộ mã CSS hiện có của bạn) ... */
+
+/* --- Định dạng cho cá --- */
+
+.fish-tank {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Đảm bảo cá nằm trên các lớp nước và đáy */
+    z-index: 10;
+    pointer-events: none;
+    /* Cho phép click xuyên qua nếu có */
+}
+
+.fish {
+    position: absolute;
+    width: 60px;
+    /* Kích thước cá */
+    height: 40px;
+    background-image: url('../images/CaHe.jpg');
+    /* 🐠 Thay thế bằng hình ảnh cá của bạn! */
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    /* Thiết lập điểm neo cho việc lật (flip) */
+    transform-origin: center center;
+    animation: none;
+
+    /* Thêm transition cho vị trí (left/top) */
+    transition: left 0s linear, top 0s linear;
+    /* Cho phép áp dụng nhiều biến đổi (xoay, lật) */
+    transform-style: preserve-3d;
+
+    /* CHỈ GIỮ transition cho LEFT và TOP. Bỏ transform 0.5s đi. */
+    transition: left 0s linear, top 0s linear;
+
+}
+
+.controls {
+    margin-top: 10px;
+}
+
+.controls button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 16px;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+    border-radius: 6px;
+}
+
+.controls button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.controls button:active {
+    transform: scale(0.95);
+}
+
+.snail {
+    position: absolute;
+    left: 30%;
+    bottom: 5px;
+    width: 60px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 5;
+    transform: scaleX(1);
+    transition: left linear;
+    animation: snail-move 10s linear infinite;
+    background-image: url('../images/OcMuonHon.png');
+}
+
+.bubble {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.468);
+    border-radius: 50%;
+    left: 10%;
+    bottom: 0;
+    opacity: 0;
+    animation: bb-rise 7s linear infinite;
+}
+
+.bubble:nth-child(2) {
+    left: 15%;
+    animation-delay: 1.5s;
+}
+
+.bubble:nth-child(3) {
+    left: 70%;
+    animation-delay: 2.5s;
+}
+
+
+.bubble:nth-child(4) {
+    left: 40%;
+    animation-delay: 2.5s;
+}
+
+.bubble:nth-child(5) {
+    left: 80%;
+    animation-delay: 2.5s;
+}
+
+@keyframes bb-rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-400px) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes snail-move {
+    0% {
+        transform: translateX(0) scaleX(1);
+    }
+
+    50% {
+        transform: translateX(130px) scaleX(1);
+    }
+
+    51% {
+        transform: translateX(130px) scaleX(-1);
+    }
+
+    100% {
+        transform: translateX(0) scaleX(-1);
+    }
+}

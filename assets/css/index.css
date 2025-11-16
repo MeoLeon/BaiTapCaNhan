@@ -1,0 +1,208 @@
+/* CSS Reset cơ bản */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Thân trang */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f8fafc; /* Màu nền dự phòng */
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh; /* Đảm bảo chiều cao đầy màn hình */
+  overflow-x: hidden; /* Ngăn cuộn ngang */
+}
+
+/* ----- MỚI: Thanh Sidebar (Menu Trái) ----- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 260px; /* Chiều rộng khi mở rộng */
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.sidebar .logo {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  color: #1f2937;
+  text-decoration: none;
+  white-space: nowrap; /* Không xuống hàng */
+  overflow: hidden;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4b5563;
+  padding: 5px;
+}
+.toggle-btn svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.sidebar .nav-links {
+  list-style: none; /* Bỏ dấu chấm của <li> */
+  display: flex;
+  flex-direction: column; /* Xếp dọc */
+  gap: 0.5rem; /* Khoảng cách giữa các link */
+}
+
+.sidebar .nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Khoảng cách giữa icon và chữ */
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #4b5563; /* (thay cho text-gray-600) */
+  font-weight: 500;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  white-space: nowrap; /* Không xuống hàng */
+  overflow: hidden;
+}
+.sidebar .nav-links a:hover {
+  color: #2563eb;
+  background-color: #f0f4ff;
+}
+
+.sidebar .nav-links a svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0; /* Ngăn icon bị co lại */
+}
+.sidebar .nav-links a span {
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* ----- MỚI: Trạng thái Thu Gọn (Collapsed) ----- */
+.sidebar.collapsed {
+  width: 88px; /* Chiều rộng khi thu gọn (chỉ đủ cho icon) */
+}
+
+.sidebar.collapsed .toggle-btn svg {
+  transform: rotate(180deg);
+}
+
+.sidebar.collapsed .logo span {
+  opacity: 0;
+  display: none; /* Ẩn chữ "Đồ Án..." */
+}
+.sidebar.collapsed .nav-links a span {
+  opacity: 0; /* Ẩn chữ của link */
+  display: none;
+}
+.sidebar.collapsed .nav-links a {
+  justify-content: center; /* Đưa icon ra giữa */
+  padding: 0.75rem;
+}
+
+/* ----- MỚI: Nội dung chính (bên phải) ----- */
+.main-content {
+  position: relative; /* Cho iframe định vị tuyệt đối */
+  height: 100vh;
+  margin-left: 260px; /* Bằng chiều rộng sidebar */
+  width: calc(100% - 260px);
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+
+  /* Dùng flex để căn giữa nội dung chào mừng */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+/* Khi sidebar thu gọn, nội dung chính mở rộng ra */
+.sidebar.collapsed ~ .main-content {
+  margin-left: 88px; /* Bằng chiều rộng sidebar thu gọn */
+  width: calc(100% - 88px);
+}
+
+/* Hộp nội dung chào mừng (hero-content) */
+.hero-content {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 3rem 4rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.hero-content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+.hero-content .subtitle {
+  font-size: 1.25rem;
+  color: #4b5563;
+  margin-top: 12px;
+}
+.hero-content .student-info {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+/* Vỏ bọc Iframe */
+#iframe-wrapper {
+  /* Định vị tuyệt đối để lấp đầy .main-content 
+              khi được kích hoạt 
+            */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none; /* Ẩn ban đầu */
+}
+#iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none; /* Xóa đường viền của iframe */
+}
+
+/* Responsive cho thiết bị di động */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 88px; /* Mặc định thu gọn trên mobile */
+  }
+  .sidebar .toggle-btn {
+    display: none; /* Ẩn nút thu gọn (vì đã mặc định) */
+  }
+  .sidebar .logo span,
+  .sidebar .nav-links a span {
+    display: none; /* Ẩn toàn bộ chữ */
+  }
+  .sidebar .nav-links a {
+    justify-content: center;
+    padding: 0.75rem;
+  }
+
+  .main-content {
+    margin-left: 88px; /* Căn lề theo sidebar thu gọn */
+    width: calc(100% - 88px);
+    padding: 1rem;
+  }
+  .hero-content {
+    padding: 2rem 1.5rem;
+  }
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+}
